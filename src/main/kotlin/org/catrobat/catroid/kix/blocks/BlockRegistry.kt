@@ -1,34 +1,12 @@
 /*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2026 The Catrobat Team
- * (<http://developer.catrobat.org/credits>)
- *
  * Kix Engine Mod - Central Block Registry
- * Copyright (C) 2026 Kix Engine Contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2026 Kix Engine Contributors | AGPL-3.0
  */
-
 package org.catrobat.catroid.kix.blocks
 
 import org.catrobat.catroid.content.bricks.Brick
 import java.util.concurrent.ConcurrentHashMap
 
-/**
- * Central registry that organizes all Kix Engine bricks by category
- * for presentation in the Pocket Code UI.
- */
 object BlockRegistry {
 
     const val CATEGORY_LAYERS = "Layers"
@@ -45,14 +23,9 @@ object BlockRegistry {
 
     init {
         listOf(
-            CATEGORY_LAYERS,
-            CATEGORY_CAMERA,
-            CATEGORY_JOYSTICK,
-            CATEGORY_NETWORK,
-            CATEGORY_COLLISION,
-            CATEGORY_BOT,
-            CATEGORY_TEXT,
-            CATEGORY_CUSTOM
+            CATEGORY_LAYERS, CATEGORY_CAMERA, CATEGORY_JOYSTICK,
+            CATEGORY_NETWORK, CATEGORY_COLLISION, CATEGORY_BOT,
+            CATEGORY_TEXT, CATEGORY_CUSTOM
         ).forEach { ensureCategory(it) }
     }
 
@@ -63,11 +36,9 @@ object BlockRegistry {
     fun register(category: String, brick: Brick, id: String? = null) {
         ensureCategory(category)
         categories[category]?.add(brick)
-
         val resolvedId = id
             ?: (brick as? CustomBlockBrick)?.getBlockId()
             ?: brick.javaClass.simpleName
-
         brickById[resolvedId] = brick
     }
 
@@ -77,17 +48,14 @@ object BlockRegistry {
 
     fun unregister(id: String) {
         val brick = brickById.remove(id) ?: return
-        categories.values.forEach { list -> list.remove(brick) }
+        categories.values.forEach { it.remove(brick) }
     }
 
-    fun getBricksForCategory(category: String): List<Brick> {
-        return categories[category]?.toList() ?: emptyList()
-    }
+    fun getBricksForCategory(category: String): List<Brick> =
+        categories[category]?.toList() ?: emptyList()
 
     fun getAllCategories(): List<String> = categories.keys.sorted()
-
     fun getBrickById(id: String): Brick? = brickById[id]
-
     fun getAllBricks(): List<Brick> = brickById.values.toList()
 
     fun clear() {
@@ -121,9 +89,45 @@ object BlockRegistry {
         register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraCinematicCutBrick(), "CameraCinematicCutBrick")
     }
 
-    /** Call once at app/mod startup. */
+    fun registerDefaultJoystickBricks() {
+        register(CATEGORY_JOYSTICK, org.catrobat.catroid.kix.bricks.joystick.JoystickDPadBrick(), "JoystickDPadBrick")
+        register(CATEGORY_JOYSTICK, org.catrobat.catroid.kix.bricks.joystick.JoystickAnalogBrick(), "JoystickAnalogBrick")
+        register(CATEGORY_JOYSTICK, org.catrobat.catroid.kix.bricks.joystick.JoystickDualStickBrick(), "JoystickDualStickBrick")
+        register(CATEGORY_JOYSTICK, org.catrobat.catroid.kix.bricks.joystick.GetJoystickInputBrick(), "GetJoystickInputBrick")
+    }
+
+    fun registerDefaultNetworkBricks() {
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkUDPConnectBrick(), "NetworkUDPConnectBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkUDPSendBrick(), "NetworkUDPSendBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkUDPReceiveBrick(), "NetworkUDPReceiveBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkUDPDisconnectBrick(), "NetworkUDPDisconnectBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkTCPConnectBrick(), "NetworkTCPConnectBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkTCPSendBrick(), "NetworkTCPSendBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkTCPReceiveBrick(), "NetworkTCPReceiveBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkTCPDisconnectBrick(), "NetworkTCPDisconnectBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkBroadcastBrick(), "NetworkBroadcastBrick")
+        register(CATEGORY_NETWORK, org.catrobat.catroid.kix.bricks.network.NetworkListenBrick(), "NetworkListenBrick")
+    }
+
+    fun registerDefaultCollisionBricks() {
+        register(CATEGORY_COLLISION, org.catrobat.catroid.kix.bricks.collision.CollisionDetectionBrick(), "CollisionDetectionBrick")
+        register(CATEGORY_COLLISION, org.catrobat.catroid.kix.bricks.collision.CollisionGroupFilterBrick(), "CollisionGroupFilterBrick")
+        register(CATEGORY_COLLISION, org.catrobat.catroid.kix.bricks.collision.OnCollisionBrick(), "OnCollisionBrick")
+    }
+
+    fun registerDefaultBotBricks() {
+        register(CATEGORY_BOT, org.catrobat.catroid.kix.bricks.bot.BotPatrolBrick(), "BotPatrolBrick")
+        register(CATEGORY_BOT, org.catrobat.catroid.kix.bricks.bot.BotFollowTargetBrick(), "BotFollowTargetBrick")
+        register(CATEGORY_BOT, org.catrobat.catroid.kix.bricks.bot.BotPathfindBrick(), "BotPathfindBrick")
+        register(CATEGORY_BOT, org.catrobat.catroid.kix.bricks.bot.BotAIBehaviorBrick(), "BotAIBehaviorBrick")
+    }
+
     fun registerAllDefaults() {
         registerDefaultLayerBricks()
         registerDefaultCameraBricks()
+        registerDefaultJoystickBricks()
+        registerDefaultNetworkBricks()
+        registerDefaultCollisionBricks()
+        registerDefaultBotBricks()
     }
 }
