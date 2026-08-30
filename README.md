@@ -1,79 +1,42 @@
 # Kix Engine
 
-**Kix Engine** — Android Library mod for Pocket Code / Catroid / NewCatroid.
+Android Library mod for Pocket Code / Catroid / NewCatroid.
+Theme: Dark Gray + Emerald Green.
 
-Dark Gray + Emerald Green theme. Layers, Camera, custom blocks infrastructure.
-
-## Build as Android Library (Option B)
+## Build
 
 ```bash
 git clone https://github.com/sa827472ra-bot/Kix-Engine.git
 cd Kix-Engine
-
-# Needs Android SDK + JDK 17
-# Generate wrapper if missing:
 gradle wrapper --gradle-version 8.7
-
 ./gradlew :kix-engine:assembleDebug
-# AAR → kix-engine/build/outputs/aar/kix-engine-debug.aar
 ```
 
-### Module layout
+AAR: `kix-engine/build/outputs/aar/kix-engine-debug.aar`
 
-```
-Kix-Engine/
-├── settings.gradle.kts
-├── build.gradle.kts
-├── gradle.properties
-├── res/values/kix_colors.xml          # shared resources
-├── src/main/kotlin/.../kix/           # production sources
-└── kix-engine/
-    ├── build.gradle.kts
-    ├── src/main/AndroidManifest.xml
-    └── src/main/kotlin/.../           # Catroid STUBS (standalone only)
-```
+Stubs under `kix-engine/src/main/kotlin/org/catrobat/catroid/` are for **standalone compile only**. Delete them when linking to real Catroid.
 
-Stubs under `kix-engine/src/main/kotlin/org/catrobat/catroid/` exist **only** so the library compiles alone. They are **not** the real Catroid runtime.
+## Status
 
-### Use inside NewCatroid
+| Part | Content | Status |
+|------|---------|--------|
+| 1 | Colors, LayerManager, KixPresetActions | ✅ |
+| 2 | CustomBlock* + BlockRegistry + Layer Bricks (8) | ✅ |
+| 3 | CameraManager + Camera Bricks (12) | ✅ |
+| 4 | Joystick, Network, Collision, Bot managers + bricks | ✅ |
+| 5 | SuperTextBrick + unit tests + layouts | Pending |
 
-1. Copy/clone this repo next to NewCatroid **or** add as git submodule.
-2. In NewCatroid `settings.gradle`:
-   ```gradle
-   include ':kix-engine'
-   project(':kix-engine').projectDir = new File(settingsDir, '../Kix-Engine/kix-engine')
-   ```
-3. In `catroid/build.gradle`:
-   ```gradle
-   implementation project(':kix-engine')
-   ```
-4. **Delete** the stub files inside `kix-engine/src/main/kotlin/org/catrobat/catroid/` (Sprite, Brick, Formula, …).
-5. In `kix-engine/build.gradle.kts` add:
-   ```kotlin
-   compileOnly(project(":catroid"))
-   ```
-6. Register bricks in CategoryBricksFactory, XstreamSerializer, layouts, stage loop (`CameraManager.update`).
+### Part 4 details
+- **Joystick** (4): DPad, Analog, DualStick, GetInput + `JoystickManager`
+- **Network** (10): UDP/TCP connect/send/receive/disconnect, Broadcast, Listen + `NetworkManager`
+- **Collision** (3): Detection toggle, Group filter, OnCollision + `CollisionManager`
+- **Bot** (4): Patrol, Follow, Pathfind, AIBehavior + `BotManager`
 
-Without steps 4–6 you get a compilable AAR, but blocks still will not appear in the Pocket Code UI.
-
-## Feature status
-
-| Area | Status |
-|------|--------|
-| Colors (`kix_colors.xml`) | ✅ |
-| LayerManager + 8 Layer Bricks | ✅ |
-| CameraManager + 12 Camera Bricks | ✅ |
-| CustomBlockFactory / Brick / BlockRegistry | ✅ |
-| Android Library Gradle (Option B) | ✅ |
-| Joystick Bricks (4) | ❌ missing |
-| Network Bricks TCP/UDP (10) | ❌ missing |
-| Collision Bricks (3) | ❌ missing |
-| Bot Bricks (4) | ❌ missing |
-| SuperTextBrick + 10 animations | ❌ missing |
-| Unit tests (73) | ❌ missing |
-| Brick XML layouts + strings | ❌ missing |
-| CategoryBricksFactory / Xstream hooks | ❌ missing (host app) |
-| Stage render integration | ❌ missing (host app) |
+## Still missing for real in-app use
+- SuperTextBrick (10 animations)
+- 73 unit tests
+- Brick XML layouts + string resources
+- Host integration: CategoryBricksFactory, XstreamSerializer, stage loop (`CameraManager.update`, `CollisionManager.update`, `BotManager.step`)
 
 ## License
-AGPL-3.0 (Catrobat-compatible).
+AGPL-3.0
