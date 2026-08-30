@@ -1,0 +1,16 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build
+/kix-engine/build
+**/build/
+captures/
+*.apk
+*.aar
+*.ap_
+*.dex
+*.class
+.externalNativeBuild/
+.cxx/
