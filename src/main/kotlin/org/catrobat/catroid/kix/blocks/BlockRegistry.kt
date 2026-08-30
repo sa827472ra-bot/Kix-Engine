@@ -44,7 +44,6 @@ object BlockRegistry {
     private val brickById = ConcurrentHashMap<String, Brick>()
 
     init {
-        // Ensure core categories always exist
         listOf(
             CATEGORY_LAYERS,
             CATEGORY_CAMERA,
@@ -61,10 +60,6 @@ object BlockRegistry {
         categories.putIfAbsent(category, mutableListOf())
     }
 
-    /**
-     * Registers a brick under the given category.
-     * If the brick is a [CustomBlockBrick], its internal id is used for lookup.
-     */
     fun register(category: String, brick: Brick, id: String? = null) {
         ensureCategory(category)
         categories[category]?.add(brick)
@@ -100,10 +95,6 @@ object BlockRegistry {
         brickById.clear()
     }
 
-    /**
-     * Convenience: register all default Layer bricks.
-     * Call this during application/mod initialization.
-     */
     fun registerDefaultLayerBricks() {
         register(CATEGORY_LAYERS, org.catrobat.catroid.kix.bricks.layers.ShowLayerBrick(), "ShowLayerBrick")
         register(CATEGORY_LAYERS, org.catrobat.catroid.kix.bricks.layers.HideLayerBrick(), "HideLayerBrick")
@@ -113,5 +104,26 @@ object BlockRegistry {
         register(CATEGORY_LAYERS, org.catrobat.catroid.kix.bricks.layers.GetActorLayerBrick(), "GetActorLayerBrick")
         register(CATEGORY_LAYERS, org.catrobat.catroid.kix.bricks.layers.BringLayerToFrontBrick(), "BringLayerToFrontBrick")
         register(CATEGORY_LAYERS, org.catrobat.catroid.kix.bricks.layers.SendLayerToBackBrick(), "SendLayerToBackBrick")
+    }
+
+    fun registerDefaultCameraBricks() {
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraFollowPlayerBrick(), "CameraFollowPlayerBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraFixedPositionBrick(), "CameraFixedPositionBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraZoomBrick(), "CameraZoomBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraRotateBrick(), "CameraRotateBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraShakeBrick(), "CameraShakeBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraFadeInBrick(), "CameraFadeInBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraFadeOutBrick(), "CameraFadeOutBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraBoundsBrick(), "CameraBoundsBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraLerpBrick(), "CameraLerpBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraDepthOfFieldBrick(), "CameraDepthOfFieldBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraIsometricBrick(), "CameraIsometricBrick")
+        register(CATEGORY_CAMERA, org.catrobat.catroid.kix.bricks.camera.CameraCinematicCutBrick(), "CameraCinematicCutBrick")
+    }
+
+    /** Call once at app/mod startup. */
+    fun registerAllDefaults() {
+        registerDefaultLayerBricks()
+        registerDefaultCameraBricks()
     }
 }
