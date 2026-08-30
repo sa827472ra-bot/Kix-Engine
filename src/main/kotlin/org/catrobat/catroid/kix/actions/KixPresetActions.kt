@@ -1,203 +1,75 @@
 /*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2026 The Catrobat Team
- * (<http://developer.catrobat.org/credits>)
- *
- * Kix Engine Mod - Central Action Presets (26 actions)
- * Copyright (C) 2026 Kix Engine Contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Kix Engine Mod - Central Action Presets
+ * Copyright (C) 2026 Kix Engine Contributors | AGPL-3.0
  */
-
 package org.catrobat.catroid.kix.actions
 
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.kix.bot.BotManager
 import org.catrobat.catroid.kix.camera.CameraManager
+import org.catrobat.catroid.kix.collision.CollisionManager
+import org.catrobat.catroid.kix.joystick.JoystickManager
 import org.catrobat.catroid.kix.layers.LayerManager
+import org.catrobat.catroid.kix.network.NetworkManager
 
-/**
- * Central registry and executor for all Kix Engine preset actions.
- *
- * Categories:
- *  - Layer Actions (8)
- *  - Camera Actions (expanded)
- *  - Joystick Actions (3)
- *  - Network Actions (5)
- *  - Collision Actions (2)
- *  - Bot Actions (4)
- */
 object KixPresetActions {
 
-    // -------------------------------------------------------------------------
-    // LAYER ACTIONS (8)
-    // -------------------------------------------------------------------------
+    // LAYER
+    fun showLayer(layerIndex: Int) = LayerManager.showLayer(layerIndex)
+    fun hideLayer(layerIndex: Int) = LayerManager.hideLayer(layerIndex)
+    fun toggleLayerVisibility(layerIndex: Int) = LayerManager.toggleLayerVisibility(layerIndex)
+    fun setLayerName(layerIndex: Int, name: String) = LayerManager.setLayerName(layerIndex, name)
+    fun setActorLayer(sprite: Sprite, layerIndex: Int) = LayerManager.setActorLayer(sprite, layerIndex)
+    fun getActorLayer(sprite: Sprite): Int = LayerManager.getActorLayer(sprite)
+    fun bringLayerToFront(layerIndex: Int) = LayerManager.bringLayerToFront(layerIndex)
+    fun sendLayerToBack(layerIndex: Int) = LayerManager.sendLayerToBack(layerIndex)
 
-    fun showLayer(layerIndex: Int) {
-        LayerManager.showLayer(layerIndex)
-    }
-
-    fun hideLayer(layerIndex: Int) {
-        LayerManager.hideLayer(layerIndex)
-    }
-
-    fun toggleLayerVisibility(layerIndex: Int) {
-        LayerManager.toggleLayerVisibility(layerIndex)
-    }
-
-    fun setLayerName(layerIndex: Int, name: String) {
-        LayerManager.setLayerName(layerIndex, name)
-    }
-
-    fun setActorLayer(sprite: Sprite, layerIndex: Int) {
-        LayerManager.setActorLayer(sprite, layerIndex)
-    }
-
-    fun getActorLayer(sprite: Sprite): Int {
-        return LayerManager.getActorLayer(sprite)
-    }
-
-    fun bringLayerToFront(layerIndex: Int) {
-        LayerManager.bringLayerToFront(layerIndex)
-    }
-
-    fun sendLayerToBack(layerIndex: Int) {
-        LayerManager.sendLayerToBack(layerIndex)
-    }
-
-    // -------------------------------------------------------------------------
-    // CAMERA ACTIONS
-    // -------------------------------------------------------------------------
-
-    fun cameraFollowPlayer(target: Sprite) {
-        CameraManager.followPlayer(target)
-    }
-
-    fun cameraFixedPosition(x: Float, y: Float) {
-        CameraManager.setFixedPosition(x, y)
-    }
-
-    fun cameraZoom(factor: Float) {
-        CameraManager.setZoom(factor)
-    }
-
-    fun cameraRotate(degrees: Float) {
-        CameraManager.setRotation(degrees)
-    }
-
-    fun cameraShake(intensity: Float, durationMs: Long) {
-        CameraManager.shake(intensity, durationMs)
-    }
-
-    fun cameraFadeIn(durationMs: Long = 300L) {
-        CameraManager.fadeIn(durationMs)
-    }
-
-    fun cameraFadeOut(durationMs: Long = 300L) {
-        CameraManager.fadeOut(durationMs)
-    }
-
-    fun cameraBounds(left: Float, right: Float, bottom: Float, top: Float) {
+    // CAMERA
+    fun cameraFollowPlayer(target: Sprite) = CameraManager.followPlayer(target)
+    fun cameraFixedPosition(x: Float, y: Float) = CameraManager.setFixedPosition(x, y)
+    fun cameraZoom(factor: Float) = CameraManager.setZoom(factor)
+    fun cameraRotate(degrees: Float) = CameraManager.setRotation(degrees)
+    fun cameraShake(intensity: Float, durationMs: Long) = CameraManager.shake(intensity, durationMs)
+    fun cameraFadeIn(durationMs: Long = 300L) = CameraManager.fadeIn(durationMs)
+    fun cameraFadeOut(durationMs: Long = 300L) = CameraManager.fadeOut(durationMs)
+    fun cameraBounds(left: Float, right: Float, bottom: Float, top: Float) =
         CameraManager.setBounds(left, right, bottom, top)
-    }
-
-    fun cameraLerp(speed: Float) {
-        CameraManager.setLerpSpeed(speed)
-    }
-
-    fun cameraDepthOfField(focus: Float, range: Float) {
-        CameraManager.setDepthOfField(focus, range)
-    }
-
-    fun cameraIsometric(enabled: Boolean) {
-        CameraManager.setIsometric(enabled)
-    }
-
-    fun cameraCinematicCut(x: Float, y: Float, zoom: Float, rotation: Float) {
+    fun cameraLerp(speed: Float) = CameraManager.setLerpSpeed(speed)
+    fun cameraDepthOfField(focus: Float, range: Float) = CameraManager.setDepthOfField(focus, range)
+    fun cameraIsometric(enabled: Boolean) = CameraManager.setIsometric(enabled)
+    fun cameraCinematicCut(x: Float, y: Float, zoom: Float, rotation: Float) =
         CameraManager.cinematicCut(x, y, zoom, rotation)
-    }
 
-    // -------------------------------------------------------------------------
-    // JOYSTICK ACTIONS (3) - stubs
-    // -------------------------------------------------------------------------
+    // JOYSTICK
+    fun joystickDPadEnable(enable: Boolean) = JoystickManager.enableDPad(enable)
+    fun joystickAnalogEnable(enable: Boolean) = JoystickManager.enableAnalog(enable)
+    fun joystickDualStickEnable(enable: Boolean) = JoystickManager.enableDualStick(enable)
+    fun getJoystickInput(): Pair<Float, Float> = JoystickManager.getInput()
+    fun getJoystickRightInput(): Pair<Float, Float> = JoystickManager.getRightInput()
 
-    fun joystickDPadEnable(enable: Boolean) {
-        // TODO
-    }
+    // NETWORK
+    fun networkUdpConnect(host: String, port: Int) = NetworkManager.udpConnect(host, port)
+    fun networkUdpSend(data: String) = NetworkManager.udpSend(data)
+    fun networkUdpReceive(): String? = NetworkManager.udpReceive()
+    fun networkUdpDisconnect() = NetworkManager.udpDisconnect()
+    fun networkTcpConnect(host: String, port: Int) = NetworkManager.tcpConnect(host, port)
+    fun networkTcpSend(data: String) = NetworkManager.tcpSend(data)
+    fun networkTcpReceive(): String? = NetworkManager.tcpReceive()
+    fun networkTcpDisconnect() = NetworkManager.tcpDisconnect()
+    fun networkBroadcast(message: String) = NetworkManager.broadcast(message)
+    fun networkListen(callback: (String) -> Unit) = NetworkManager.listen(callback)
 
-    fun joystickAnalogEnable(enable: Boolean) {
-        // TODO
-    }
+    // COLLISION
+    fun collisionDetectionEnable(enable: Boolean) = CollisionManager.setDetectionEnabled(enable)
+    fun collisionGroupFilter(group: String, collidesWith: Set<String>) =
+        CollisionManager.setGroupFilter(group, collidesWith)
+    fun onCollision(callback: (Sprite, Sprite) -> Unit) = CollisionManager.onCollision(callback)
+    fun collisionCheck(a: Sprite, b: Sprite): Boolean = CollisionManager.check(a, b)
 
-    fun getJoystickInput(): Pair<Float, Float> {
-        // TODO: return (x, y) normalized
-        return 0f to 0f
-    }
-
-    // -------------------------------------------------------------------------
-    // NETWORK ACTIONS (5) - stubs
-    // -------------------------------------------------------------------------
-
-    fun networkUdpConnect(host: String, port: Int) {
-        // TODO
-    }
-
-    fun networkUdpSend(data: String) {
-        // TODO
-    }
-
-    fun networkUdpReceive(): String? {
-        // TODO
-        return null
-    }
-
-    fun networkTcpConnect(host: String, port: Int) {
-        // TODO
-    }
-
-    fun networkBroadcast(message: String) {
-        // TODO
-    }
-
-    // -------------------------------------------------------------------------
-    // COLLISION ACTIONS (2) - stubs
-    // -------------------------------------------------------------------------
-
-    fun collisionDetectionEnable(enable: Boolean) {
-        // TODO
-    }
-
-    fun onCollision(spriteA: Sprite, spriteB: Sprite, callback: () -> Unit) {
-        // TODO
-    }
-
-    // -------------------------------------------------------------------------
-    // BOT ACTIONS (4) - stubs
-    // -------------------------------------------------------------------------
-
-    fun botPatrol(sprite: Sprite, points: List<Pair<Float, Float>>) {
-        // TODO
-    }
-
-    fun botFollowTarget(sprite: Sprite, target: Sprite) {
-        // TODO
-    }
-
-    fun botPathfind(sprite: Sprite, destinationX: Float, destinationY: Float) {
-        // TODO
-    }
-
-    fun botAiBehavior(sprite: Sprite, behaviorId: String) {
-        // TODO
-    }
+    // BOT
+    fun botPatrol(sprite: Sprite, points: List<Pair<Float, Float>>) = BotManager.patrol(sprite, points)
+    fun botFollowTarget(sprite: Sprite, target: Sprite) = BotManager.followTarget(sprite, target)
+    fun botPathfind(sprite: Sprite, destinationX: Float, destinationY: Float) =
+        BotManager.pathfind(sprite, destinationX, destinationY)
+    fun botAiBehavior(sprite: Sprite, behaviorId: String) = BotManager.setAiBehavior(sprite, behaviorId)
 }
