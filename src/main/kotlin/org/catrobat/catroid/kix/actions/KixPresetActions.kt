@@ -23,6 +23,7 @@
 package org.catrobat.catroid.kix.actions
 
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.kix.camera.CameraManager
 import org.catrobat.catroid.kix.layers.LayerManager
 
 /**
@@ -30,13 +31,11 @@ import org.catrobat.catroid.kix.layers.LayerManager
  *
  * Categories:
  *  - Layer Actions (8)
- *  - Camera Actions (4)
+ *  - Camera Actions (expanded)
  *  - Joystick Actions (3)
  *  - Network Actions (5)
  *  - Collision Actions (2)
  *  - Bot Actions (4)
- *
- * Total: 26 actions
  */
 object KixPresetActions {
 
@@ -77,23 +76,55 @@ object KixPresetActions {
     }
 
     // -------------------------------------------------------------------------
-    // CAMERA ACTIONS (4) - stubs for next iteration
+    // CAMERA ACTIONS
     // -------------------------------------------------------------------------
 
     fun cameraFollowPlayer(target: Sprite) {
-        // TODO: implement in Camera subsystem
+        CameraManager.followPlayer(target)
     }
 
     fun cameraFixedPosition(x: Float, y: Float) {
-        // TODO: implement in Camera subsystem
+        CameraManager.setFixedPosition(x, y)
     }
 
     fun cameraZoom(factor: Float) {
-        // TODO: implement in Camera subsystem
+        CameraManager.setZoom(factor)
+    }
+
+    fun cameraRotate(degrees: Float) {
+        CameraManager.setRotation(degrees)
     }
 
     fun cameraShake(intensity: Float, durationMs: Long) {
-        // TODO: implement in Camera subsystem
+        CameraManager.shake(intensity, durationMs)
+    }
+
+    fun cameraFadeIn(durationMs: Long = 300L) {
+        CameraManager.fadeIn(durationMs)
+    }
+
+    fun cameraFadeOut(durationMs: Long = 300L) {
+        CameraManager.fadeOut(durationMs)
+    }
+
+    fun cameraBounds(left: Float, right: Float, bottom: Float, top: Float) {
+        CameraManager.setBounds(left, right, bottom, top)
+    }
+
+    fun cameraLerp(speed: Float) {
+        CameraManager.setLerpSpeed(speed)
+    }
+
+    fun cameraDepthOfField(focus: Float, range: Float) {
+        CameraManager.setDepthOfField(focus, range)
+    }
+
+    fun cameraIsometric(enabled: Boolean) {
+        CameraManager.setIsometric(enabled)
+    }
+
+    fun cameraCinematicCut(x: Float, y: Float, zoom: Float, rotation: Float) {
+        CameraManager.cinematicCut(x, y, zoom, rotation)
     }
 
     // -------------------------------------------------------------------------
