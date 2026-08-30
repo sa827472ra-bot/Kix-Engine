@@ -11,6 +11,7 @@ android {
         minSdk = 24
         targetSdk = 34
         consumerProguardFiles("consumer-rules.pro")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -24,11 +25,18 @@ android {
 
     sourceSets {
         getByName("main") {
-            // Sources live at repository root (shared layout)
             java.srcDirs("src/main/kotlin", "../src/main/kotlin")
             res.srcDirs("src/main/res", "../res")
             manifest.srcFile("src/main/AndroidManifest.xml")
         }
+        getByName("test") {
+            java.srcDirs("src/test/java")
+        }
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = false
+        unitTests.isReturnDefaultValues = true
     }
 
     buildTypes {
@@ -46,8 +54,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
     implementation("androidx.annotation:annotation:1.7.1")
 
-    // Integration into NewCatroid/Catroid:
-    // 1. Comment out or delete the stubs under src/main/kotlin/org/catrobat/catroid/content
-    // 2. Uncomment:
-    //    compileOnly(project(":catroid"))
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
+
+    // Integration into NewCatroid:
+    // compileOnly(project(":catroid"))
 }
