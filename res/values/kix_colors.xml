@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Kix Engine - Color Palette
+  Dark Gray + Emerald Green theme for Pocket Code / Catroid mod
+  Copyright (C) 2026 Kix Engine Contributors
+-->
+<resources>
+    <!-- Base Dark Gray Scale -->
+    <color name="kix_bg_primary">#121212</color>
+    <color name="kix_bg_secondary">#1E1E1E</color>
+    <color name="kix_bg_tertiary">#2A2A2A</color>
+    <color name="kix_bg_elevated">#333333</color>
+    <color name="kix_bg_surface">#1A1A1A</color>
+    <color name="kix_bg_overlay">#000000CC</color>
+
+    <!-- Text & Icons -->
+    <color name="kix_text_primary">#E0E0E0</color>
+    <color name="kix_text_secondary">#B0B0B0</color>
+    <color name="kix_text_disabled">#6A6A6A</color>
+    <color name="kix_text_hint">#8A8A8A</color>
+    <color name="kix_icon_primary">#FFFFFF</color>
+    <color name="kix_icon_secondary">#BDBDBD</color>
+
+    <!-- Emerald Green Accent Scale -->
+    <color name="kix_emerald_50">#E8F5E9</color>
+    <color name="kix_emerald_100">#C8E6C9</color>
+    <color name="kix_emerald_200">#A5D6A7</color>
+    <color name="kix_emerald_300">#81C784</color>
+    <color name="kix_emerald_400">#66BB6A</color>
+    <color name="kix_emerald_500">#4CAF50</color>
+    <color name="kix_emerald_600">#43A047</color>
+    <color name="kix_emerald_700">#388E3C</color>
+    <color name="kix_emerald_800">#2E7D32</color>
+    <color name="kix_emerald_900">#1B5E20</color>
+    <color name="kix_emerald_accent">#00C853</color>
+    <color name="kix_emerald_bright">#00E676</color>
+    <color name="kix_emerald_dark">#00A040</color>
+
+    <!-- Semantic / UI -->
+    <color name="kix_primary">@color/kix_emerald_500</color>
+    <color name="kix_primary_variant">@color/kix_emerald_700</color>
+    <color name="kix_secondary">@color/kix_emerald_accent</color>
+    <color name="kix_error">#CF6679</color>
+    <color name="kix_success">@color/kix_emerald_400</color>
+    <color name="kix_warning">#FFB300</color>
+    <color name="kix_info">#29B6F6</color>
+
+    <!-- Layer-specific tints (for visual debugging / UI indicators) -->
+    <color name="kix_layer_0">#4CAF50</color>
+    <color name="kix_layer_1">#66BB6A</color>
+    <color name="kix_layer_2">#81C784</color>
+    <color name="kix_layer_3">#A5D6A7</color>
+    <color name="kix_layer_4">#C8E6C9</color>
+    <color name="kix_layer_5">#43A047</color>
+    <color name="kix_layer_6">#388E3C</color>
+    <color name="kix_layer_7">#2E7D32</color>
+    <color name="kix_layer_8">#1B5E20</color>
+    <color name="kix_layer_9">#00C853</color>
+
+    <!-- Dividers & Borders -->
+    <color name="kix_divider">#3A3A3A</color>
+    <color name="kix_border">#424242</color>
+    <color name="kix_border_focus">@color/kix_emerald_500</color>
+</resources>
